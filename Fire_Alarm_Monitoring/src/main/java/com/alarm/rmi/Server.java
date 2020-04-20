@@ -4,17 +4,20 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.util.TreeMap;
 
-public class Server extends UnicastRemoteObject implements LoginFacade {
+public class Server extends UnicastRemoteObject implements LoginFacade{
 	// properties
 	private TreeMap clients = new TreeMap<String, String>();
 	
 	public Server() throws RemoteException {
-		
+
 	}
 
 	@Override
@@ -60,6 +63,8 @@ public class Server extends UnicastRemoteObject implements LoginFacade {
 	private void init() {
 		clients.put("admin", "admin");
 	}
+	
+
 
 	public static void main(String[] args) {
 		Registry reg;
@@ -75,5 +80,6 @@ public class Server extends UnicastRemoteObject implements LoginFacade {
 
 
 	}
+
 
 }
