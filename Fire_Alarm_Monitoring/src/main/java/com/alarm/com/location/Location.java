@@ -5,7 +5,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.alarm.com.sensor.Sensor;
 
 @Entity
 @Table(name = "LOCATION")
@@ -18,6 +22,10 @@ public class Location {
 	private int floor_no;
 	@Column(name = "ROOM_NO")
 	private int  room_no;
+	
+	@OneToOne
+	@JoinColumn(name = "sensor_id", referencedColumnName = "SENSOR_ID")
+	private Sensor sensor;
 	
 	public Location() {
 		
@@ -46,6 +54,14 @@ public class Location {
 	public void setRoom_no(int room_no) {
 		this.room_no = room_no;
 	}
-	
+
+	public Sensor getSensor() {
+		return sensor;
+	}
+
+	public void setSensor(Sensor sensor) {
+		this.sensor = sensor;
+	}
+
 	
 }

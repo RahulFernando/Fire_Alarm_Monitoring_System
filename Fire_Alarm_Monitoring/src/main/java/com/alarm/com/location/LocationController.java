@@ -15,27 +15,27 @@ public class LocationController {
 	private LocationService locationService;
 	
 	@RequestMapping(value = "/location", method = RequestMethod.GET)
-	public List<Location> getSensorDetails() {
-		return locationService.getAllSensors();
+	public List<Location> getLocationDetails() {
+		return locationService.getAllLocation();
 	}
 	
 	@RequestMapping(value = "/location/{id}")
-	public Location getSensorById(@PathVariable int id) {
-		return locationService.getSensor(id);
+	public Location getLocationById(@PathVariable int id) {
+		return locationService.getLocation(id);
 	}
 	
-	@RequestMapping(value = "/location", method = RequestMethod.POST)
-	public void saveSensor(@RequestBody Location sensor) {
-		locationService.newSensor(sensor);
+	@RequestMapping(value = "/location/save", method = RequestMethod.POST)
+	public void saveLocation(@RequestBody Location location) {
+		locationService.newLocation(location);
 	}
 	
-	@RequestMapping(value = "/location", method = RequestMethod.PUT)
-	public void updateSensor(@RequestBody Location sensor) {
-		locationService.updateSensor(sensor);
+	@RequestMapping(value = "/location/update", method = RequestMethod.PUT)
+	public void updateLocation(@RequestBody Location location) {
+		locationService.updateLocation(location);
 	}
 	
-	@RequestMapping(value = "/location", method = RequestMethod.DELETE)
-	public void deleteSensor(@PathVariable int id) {
-		locationService.deleteSensor(id);
+	@RequestMapping(value = "/location/delete/{id}", method = RequestMethod.DELETE)
+	public void deleteLocation(@PathVariable int id) {
+		locationService.deleteLocation(id);
 	}
 }

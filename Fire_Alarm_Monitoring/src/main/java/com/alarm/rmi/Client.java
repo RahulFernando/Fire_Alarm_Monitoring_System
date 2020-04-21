@@ -6,6 +6,8 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Scanner;
 
+import javax.persistence.criteria.CriteriaBuilder.In;
+
 public class Client {
 	public static void main(String[] args) {
 		try {
@@ -36,11 +38,23 @@ public class Client {
 				
 				if (no == 1) {
 					System.out.print("Enter floor: ");
-					String floor = in.nextLine();
+					int floor = 0;
+					try {
+						floor = Integer.parseInt(in.nextLine());
+					} catch (NumberFormatException e) {
+						e.printStackTrace();
+					}
 					System.out.print("Enter room: ");
-					String room = in.nextLine();
+					int room = 0;
+					try {
+						room = Integer.parseInt(in.nextLine());
+					} catch (NumberFormatException e) {
+						e.printStackTrace();
+					}
 					
+					AlarmFacade alarmFacade = (AlarmFacade) reg.lookup("rmi://localhost/service");
 					alarm.setSensor(floor, room);
+					System.out.println(alarmFacade.getLocation());
 					
 				}
 			}

@@ -1,5 +1,7 @@
 package com.alarm.com.sensor;
 
-public interface SensorRepository {
+import org.springframework.data.repository.CrudRepository;
+
+public interface SensorRepository extends CrudRepository<Sensor, Integer> {
 
 }

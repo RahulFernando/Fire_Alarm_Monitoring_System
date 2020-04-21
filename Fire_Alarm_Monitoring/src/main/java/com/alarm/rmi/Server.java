@@ -4,20 +4,24 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 import java.util.TreeMap;
 
-public class Server extends UnicastRemoteObject implements LoginFacade{
+import org.json.simple.JSONObject;
+
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
+
+public class Server extends UnicastRemoteObject implements LoginFacade, AlarmFacade{
 	// properties
 	private TreeMap clients = new TreeMap<String, String>();
+	Client client = new Client().create();
 	
 	public Server() throws RemoteException {
-
+	
 	}
 
 	@Override
@@ -64,7 +68,44 @@ public class Server extends UnicastRemoteObject implements LoginFacade{
 		clients.put("admin", "admin");
 	}
 	
+	@Override
+	public void setSensor(int floor, int room) throws RemoteException {
+		try {
+			WebResource webResource = client.resource("http://localhost:8080/location/save");
+			JSONObject input = new JSONObject();
+			input.put("floor_no", floor);
+			input.put("room_no", room);
+			ClientResponse response = webResource.type("application/json").post(ClientResponse.class, input.toString());
+			
+			if (response.getStatus() != 200) {
+				throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
+			}
+			
+			System.out.println(response.getStatus());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	@Override
+	public String getLocation() throws RemoteException {
+		try {
+			WebResource webResource = client.resource("http://localhost:8080/location");
+			ClientResponse response = webResource.accept("application/json").get(ClientResponse.class);
+			
+			if (response.getStatus() != 200) {
+				throw new RuntimeException("Failed: HTTP error code: " + response.getStatus());
+			}
+			
+			return response.getEntity(String.class);
 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "";
+	}
 
 	public static void main(String[] args) {
 		Registry reg;
@@ -75,11 +116,10 @@ public class Server extends UnicastRemoteObject implements LoginFacade{
 			System.out.println("Server is running...");
 		} catch (RemoteException e) {
 			System.out.println(e.getMessage());
-		}
-		
-
+		}		
 
 	}
+
 
 
 }
