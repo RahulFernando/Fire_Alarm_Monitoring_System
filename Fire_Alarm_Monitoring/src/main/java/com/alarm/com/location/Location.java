@@ -1,5 +1,6 @@
 package com.alarm.com.location;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,7 +24,7 @@ public class Location {
 	@Column(name = "ROOM_NO")
 	private int  room_no;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "sensor_id", referencedColumnName = "SENSOR_ID")
 	private Sensor sensor;
 	
