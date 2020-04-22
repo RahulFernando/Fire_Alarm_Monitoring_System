@@ -1,16 +1,11 @@
 package com.alarm.com.location;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import com.alarm.com.sensor.Sensor;
 
 @Entity
 @Table(name = "LOCATION")
@@ -23,10 +18,10 @@ public class Location {
 	private int floor_no;
 	@Column(name = "ROOM_NO")
 	private int  room_no;
-	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "sensor_id", referencedColumnName = "SENSOR_ID")
-	private Sensor sensor;
+	@Column(name = "CO2")
+	private int co2 = 1;
+	@Column(name = "SMOKELVL")
+	private int smokeLvl = 1;
 	
 	public Location() {
 		
@@ -56,13 +51,20 @@ public class Location {
 		this.room_no = room_no;
 	}
 
-	public Sensor getSensor() {
-		return sensor;
+	public int getCo2() {
+		return co2;
 	}
 
-	public void setSensor(Sensor sensor) {
-		this.sensor = sensor;
+	public void setCo2(int co2) {
+		this.co2 = co2;
 	}
 
-	
+	public int getSmokeLvl() {
+		return smokeLvl;
+	}
+
+	public void setSmokeLvl(int smokeLvl) {
+		this.smokeLvl = smokeLvl;
+	}
+
 }
