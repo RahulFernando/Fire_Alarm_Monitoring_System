@@ -22,6 +22,8 @@ public class Location {
 	private int co2 = 1;
 	@Column(name = "SMOKELVL")
 	private int smokeLvl = 1;
+	@Column(name = "STATUS")
+	private String status;
 	
 	public Location() {
 		
@@ -66,5 +68,14 @@ public class Location {
 	public void setSmokeLvl(int smokeLvl) {
 		this.smokeLvl = smokeLvl;
 	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 
 }

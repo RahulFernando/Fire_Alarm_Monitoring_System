@@ -8,13 +8,16 @@ import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import java.awt.SystemColor;
 import java.awt.event.ActionListener;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.awt.event.ActionEvent;
 import javax.swing.table.DefaultTableModel;
 
 public class Index {
 
 	private JFrame frame;
-	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -48,34 +51,26 @@ public class Index {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JButton btnNewButton = new JButton("");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnSignIn = new JButton("");
+		btnSignIn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Login lg = new Login();
 				lg.newLogin();
 			}
 		});
-		btnNewButton.setBackground(SystemColor.menu);
-		btnNewButton.setIcon(new ImageIcon(Index.class.getResource("/com/alarm/rmi/icons8-login-64.png")));
-		btnNewButton.setBounds(468, 13, 75, 73);
-		frame.getContentPane().add(btnNewButton);
+		btnSignIn.setBackground(SystemColor.menu);
+		btnSignIn.setIcon(new ImageIcon(Index.class.getResource("/com/alarm/rmi/icons8-login-64.png")));
+		btnSignIn.setBounds(468, 13, 75, 73);
+		frame.getContentPane().add(btnSignIn);
 		
-		table = new JTable();
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"#", "floor no", "room no", "CO2", "smokeLvl"
-			}
-		) {
-			Class[] columnTypes = new Class[] {
-				Integer.class, Object.class, Object.class, Object.class, Object.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-		});
-		table.setBounds(57, 168, 439, 197);
-		frame.getContentPane().add(table);
+		String[] columnNames = {"#", "Floor No", "Room No", "CO2", "SmokeLvl"};
+		DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+		try {
+			Registry reg = LocateRegistry.getRegistry("localhost", 1099);
+			AlarmFacade server = (AlarmFacade) reg.lookup("rmi://localhost/service");
+			System.out.println(server.getLocation());
+		} catch (RemoteException | NotBoundException  e) {
+			e.printStackTrace();
+		}
 	}
 }
