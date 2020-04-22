@@ -87,10 +87,20 @@ public class Login extends JFrame {
 					
 					String response = server.login(username, password);
 					
-					if (response.equals("LOGIN_SUCCESFUL")) {
-						Dashboard ds = new Dashboard();
-						ds.newWindow();
+					if(response.equals("USERNAME_INVALID")) {
+						
+						JOptionPane.showMessageDialog(null, response);
 					}
+					else {
+						if (response.equals("LOGIN_SUCCESFUL")) {
+							Dashboard ds = new Dashboard();
+							ds.newWindow();
+						}
+						else {
+							JOptionPane.showMessageDialog(null, response);
+						}
+					}
+					
 				} catch (RemoteException | NotBoundException e) {
 					System.out.println(e.getMessage());
 				}
