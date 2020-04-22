@@ -12,12 +12,17 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.Vector;
 import java.awt.event.ActionEvent;
 import javax.swing.table.DefaultTableModel;
+
+import com.alarm.com.location.Location;
+import com.google.gson.Gson;
 
 public class Index {
 
 	private JFrame frame;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -63,12 +68,29 @@ public class Index {
 		btnSignIn.setBounds(468, 13, 75, 73);
 		frame.getContentPane().add(btnSignIn);
 		
+		table = new JTable();
+		table.setBounds(49, 190, 459, 191);
+		frame.getContentPane().add(table);
+		
 		String[] columnNames = {"#", "Floor No", "Room No", "CO2", "SmokeLvl"};
 		DefaultTableModel model = new DefaultTableModel(columnNames, 0);
 		try {
 			Registry reg = LocateRegistry.getRegistry("localhost", 1099);
 			AlarmFacade server = (AlarmFacade) reg.lookup("rmi://localhost/service");
-			System.out.println(server.getLocation());
+			Gson gson = new Gson();
+			
+			Location location = gson.fromJson(server.getLocation(), Location.class);
+			
+			Vector<Integer> row = new Vector<Integer>();
+			row.add(location.getId());
+			row.add(location.getFloor_no());
+			row.add(location.getRoom_no());
+			row.add(location.getCo2());
+			row.add(location.getSmokeLvl());
+			model.addRow(row);
+			
+			table.setModel(model);
+			
 		} catch (RemoteException | NotBoundException  e) {
 			e.printStackTrace();
 		}
