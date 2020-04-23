@@ -18,7 +18,7 @@ public class sensorApp {
 				for(int count = 0 ; count <= 1 ; count++) {
 				
 					levelCo2 = co2.nextInt(10)+1;
-					levelSmoke = co2.nextInt(10)+1;
+					levelSmoke = smokeLvl.nextInt(10)+1;
 					
 					System.out.println("Co2 Level " + levelCo2);
 					System.out.println("Smoke Level " + levelSmoke);
@@ -48,7 +48,7 @@ public class sensorApp {
 	public static void timer() {
 		
 		try {
-			Thread.sleep(5000);
+			Thread.sleep(10000);
 			
 	}catch (Exception e) {
 		
