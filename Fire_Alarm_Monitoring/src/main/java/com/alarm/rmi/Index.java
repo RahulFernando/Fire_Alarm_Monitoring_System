@@ -12,12 +12,16 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.ArrayList;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
 import javax.swing.table.DefaultTableModel;
 
 import com.alarm.com.location.Location;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import aj.org.objectweb.asm.Type;
 
 public class Index {
 
@@ -79,15 +83,19 @@ public class Index {
 			AlarmFacade server = (AlarmFacade) reg.lookup("rmi://localhost/service");
 			Gson gson = new Gson();
 			
-			Location location = gson.fromJson(server.getLocation(), Location.class);
+
+						
+			Location[] location = gson.fromJson(server.getLocation(), Location[].class);
 			
-			Vector<Integer> row = new Vector<Integer>();
-			row.add(location.getId());
-			row.add(location.getFloor_no());
-			row.add(location.getRoom_no());
-			row.add(location.getCo2());
-			row.add(location.getSmokeLvl());
-			model.addRow(row);
+			for(int i=0; i < location.length; i++) {
+				Vector<Integer> row = new Vector<Integer>();
+				row.add(location[i].getId());
+				row.add(location[i].getFloor_no());
+				row.add(location[i].getRoom_no());
+				row.add(location[i].getCo2());
+				row.add(location[i].getSmokeLvl());
+				model.addRow(row);
+			}
 			
 			table.setModel(model);
 			
