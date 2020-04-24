@@ -91,6 +91,34 @@ public class Server extends UnicastRemoteObject implements LoginFacade, AlarmFac
 	}
 	
 	@Override
+	public void updateSensor(int id,int floor, int room) throws RemoteException {
+		try {
+			WebResource webResource = client.resource("http://localhost:8080/location/update");
+			JSONObject input = new JSONObject();
+			
+			
+			input.put("id", id);
+			input.put("floor_no", floor);
+			input.put("room_no", room);
+			input.put("co2", 1);
+			input.put("smokeLvl", 1);
+			
+			ClientResponse response = webResource.type("application/json").put(ClientResponse.class, input.toString());
+			
+			if (response.getStatus() != 200) {
+				throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
+			}
+			
+			System.out.println(response.getStatus());
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
+	@Override
 	public String getLocation() throws RemoteException {
 		try {
 			WebResource webResource = client.resource("http://localhost:8080/location");
@@ -120,6 +148,30 @@ public class Server extends UnicastRemoteObject implements LoginFacade, AlarmFac
 			System.out.println(e.getMessage());
 		}		
 
+	}
+
+	@Override
+	public void deleteSensor(int id) throws RemoteException {
+		// TODO Auto-generated method stub
+		
+		try {
+			
+		WebResource webResource = client.resource("http://localhost:8080/location/delete/"+id);
+		JSONObject input = new JSONObject();
+	
+		
+		ClientResponse response = webResource.type("application/json").delete(ClientResponse.class, input.toString());
+		
+		if (response.getStatus() != 200) {
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
+		}
+		
+		System.out.println(response.getStatus());
+		
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+		
 	}
 
 

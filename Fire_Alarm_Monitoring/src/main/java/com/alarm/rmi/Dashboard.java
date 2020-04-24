@@ -21,8 +21,11 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import org.json.simple.JSONObject;
+
 import com.alarm.com.location.Location;
 import com.google.gson.Gson;
+import com.sun.jersey.api.client.WebResource;
 
 import java.awt.event.ActionListener;
 import java.rmi.NotBoundException;
@@ -149,7 +152,34 @@ public class Dashboard {
 			JButton btnNewButton = new JButton("UPDATE");
 			btnNewButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-				
+					Registry reg;
+					try {
+						reg = LocateRegistry.getRegistry("localhost", 1099);
+						AlarmFacade server = (AlarmFacade) reg.lookup("rmi://localhost/service");
+						
+						
+						// get use input
+						int floor_no = Integer.parseInt(textFloorNo.getText());
+						int room_no = Integer.parseInt(textRoomNo.getText());
+						
+						System.out.println(id);
+						System.out.println(floor_no);
+						System.out.println(room_no);
+						
+						server.updateSensor(id, floor_no, room_no);
+						
+					
+						
+					} catch (RemoteException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (NotBoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					
+					
 				}
 			});
 			btnNewButton.setBackground(Color.ORANGE);
@@ -159,6 +189,25 @@ public class Dashboard {
 			btnNewButton_1 = new JButton("DELETE");
 			btnNewButton_1.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					
+					Registry reg;
+					try {
+						reg = LocateRegistry.getRegistry("localhost", 1099);
+						AlarmFacade server = (AlarmFacade) reg.lookup("rmi://localhost/service");
+						
+						
+						server.deleteSensor(id);
+						
+					} catch (RemoteException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (NotBoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
+					
+					
 				}
 			});
 			btnNewButton_1.setBackground(Color.RED);
