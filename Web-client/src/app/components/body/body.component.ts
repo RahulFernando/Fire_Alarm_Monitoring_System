@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Sensors } from '../model/sensor';
 import { SensorService } from 'src/app/sensor.service';
+import { interval } from 'rxjs';
 
 @Component({
   selector: 'app-body',
@@ -12,7 +13,10 @@ export class BodyComponent implements OnInit {
   constructor(private SensorService: SensorService) { }
 
   ngOnInit() {
-
+    this.getSensorDetails();
+    setTimeout(() => {
+      this.getSensorDetails();
+    }, 5000);
   }
 
   getSensorDetails() {
