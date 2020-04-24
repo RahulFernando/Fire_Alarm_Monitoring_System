@@ -4,4 +4,5 @@ export class Sensors {
     room_no: number;
     co2: number;
     smokeLvl: number;
+    status: string;
 }
