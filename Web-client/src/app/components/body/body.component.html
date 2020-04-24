@@ -1,0 +1,23 @@
+<div class="container">
+    <table class="table table-borderless">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Floor Number</th>
+            <th scope="col">Room Number</th>
+            <th scope="col">CO2 Level</th>
+            <th scope="col">Smoke Level</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let sensor of sensors">
+            <td>{{sensor.id}}</td>
+            <td>{{sensor.floor_no}}</td>
+            <td>{{sensor.room_no}}</td>
+            <td>{{sensor.co2}}</td>
+            <td>{{sensor.smokeLvl}}</td>
+        </tr>
+        </tbody>
+      </table>
+</div>
