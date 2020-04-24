@@ -4,18 +4,32 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+
 import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.persistence.criteria.CriteriaBuilder.In;
 import javax.swing.JButton;
 import javax.swing.UIManager;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
+import com.alarm.com.location.Location;
+import com.google.gson.Gson;
+
 import java.awt.event.ActionListener;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.Vector;
 import java.awt.event.ActionEvent;
 
 public class Dashboard {
@@ -24,7 +38,9 @@ public class Dashboard {
 	private JTextField textFloorNo;
 	private JTextField textRoomNo;
 	private JButton btnNewLocation;
-	private JPanel panel;
+	private JTable table;
+	private JButton btnNewButton_1;
+	private int id = 0;
 
 	/**
 	 * Launch the application.
@@ -98,12 +114,83 @@ public class Dashboard {
 			}
 		});
 		btnNewLocation.setBackground(new Color(0, 128, 0));
-		btnNewLocation.setBounds(452, 85, 67, 25);
+		btnNewLocation.setBounds(357, 86, 41, 25);
 		frame.getContentPane().add(btnNewLocation);
 		
-		panel = new JPanel();
-		panel.setBackground(UIManager.getColor("Button.shadow"));
-		panel.setBounds(0, 0, 580, 140);
-		frame.getContentPane().add(panel);
+		table = new JTable();
+		table.setBounds(58, 177, 457, 156);
+		String[] columnNames = {"#", "Floor No", "Room No", "CO2", "SmokeLvl"};
+		DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+		table.setModel(model);
+		
+		frame.getContentPane().add(table);
+		
+		try {
+			Registry reg = LocateRegistry.getRegistry("localhost", 1099);
+			AlarmFacade server = (AlarmFacade) reg.lookup("rmi://localhost/service");
+			Gson gson = new Gson();
+			
+
+						
+			Location[] location = gson.fromJson(server.getLocation(), Location[].class);
+			
+			for(int i=0; i < location.length; i++) {
+				Vector<Integer> row = new Vector<Integer>();
+				row.add(location[i].getId());
+				row.add(location[i].getFloor_no());
+				row.add(location[i].getRoom_no());
+				row.add(location[i].getCo2());
+				row.add(location[i].getSmokeLvl());
+				model.addRow(row);
+			}
+			
+			table.setModel(model);
+			
+			JButton btnNewButton = new JButton("UPDATE");
+			btnNewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+				
+				}
+			});
+			btnNewButton.setBackground(Color.ORANGE);
+			btnNewButton.setBounds(408, 87, 80, 23);
+			frame.getContentPane().add(btnNewButton);
+			
+			btnNewButton_1 = new JButton("DELETE");
+			btnNewButton_1.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+				}
+			});
+			btnNewButton_1.setBackground(Color.RED);
+			btnNewButton_1.setBounds(493, 87, 79, 23);
+			frame.getContentPane().add(btnNewButton_1);
+			
+			JPanel panel = new JPanel();
+			panel.setBackground(Color.GRAY);
+			panel.setBounds(0, 0, 582, 130);
+			frame.getContentPane().add(panel);
+			
+		} catch (RemoteException | NotBoundException  e) {
+			e.printStackTrace();
+		}
+		ListSelectionModel listSelectionModel = table.getSelectionModel();
+		listSelectionModel.addListSelectionListener(new ListSelectionListener() {
+			
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				// TODO Auto-generated method stub
+				if (! listSelectionModel.isSelectionEmpty()) {
+					int selectedRow = listSelectionModel.getMinSelectionIndex();
+					textFloorNo.setText(model.getValueAt(selectedRow, 1).toString());
+					textRoomNo.setText(model.getValueAt(selectedRow, 2).toString());
+					id = (int) model.getValueAt(selectedRow, 0);
+				}
+			}
+		});
+		
+//		DefaultTableModel model1 = (DefaultTableModel)table.getModel();
+//		
+//		int selectedRow = table.getSelectedRow();
+//		textFloorNo.setText(model1.getValueAt(selectedRow, 1).toString());
 	}
 }
