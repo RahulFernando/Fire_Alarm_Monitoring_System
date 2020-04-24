@@ -12,16 +12,12 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.ArrayList;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
 import javax.swing.table.DefaultTableModel;
 
 import com.alarm.com.location.Location;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import aj.org.objectweb.asm.Type;
 
 public class Index {
 
