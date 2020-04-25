@@ -9,13 +9,12 @@ import { SensorService } from 'src/app/sensor.service';
 })
 export class BodyComponent implements OnInit {
   sensors: Sensors[];
-  constructor(private SensorService: SensorService) { }
+  constructor(private SensorService: SensorService) { 
+    setInterval(() => this.getSensorDetails(), 5000);
+  }
 
   ngOnInit() {
     this.getSensorDetails();
-    setTimeout(() => {
-      this.getSensorDetails();
-    }, 5000);
   }
 
   getSensorDetails() {
@@ -24,6 +23,10 @@ export class BodyComponent implements OnInit {
       console.log(data)
       this.sensors = data;
     })
+  }
+
+  onEverySecond() {
+    console.log('second');
   }
 
 }
