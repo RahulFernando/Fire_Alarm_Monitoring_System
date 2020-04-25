@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpClientModule } from '@angular/common/http'
-import * as Rx from 'rxjs/Rx'
+import { HttpClient } from '@angular/common/http'
 import { from, Observable, throwError} from 'rxjs'
-import { map, catchError } from 'rxjs/Operators'
+import { catchError } from 'rxjs/Operators'
 
 import { Sensors } from './components/model/sensor';
 
@@ -14,11 +13,9 @@ export class SensorService {
   constructor(private http: HttpClient) { }
 
   // fetch data
-  getSensorDetails() {
-    return this.http.get('http://localhost:8080/location').pipe(
-      map((data: Sensors[]) => {
-        return data
-      }), catchError(error => {
+  getSensorDetails(): Observable<Sensors[]> {
+    return this.http.get<Sensors[]>(`http://localhost:8080/location`).pipe(
+      catchError(error => {
         return throwError('Something went wrong!');
       })
     )

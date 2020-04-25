@@ -17,7 +17,8 @@
             <td>{{sensor.room_no}}</td>
             <td>{{sensor.co2}}</td>
             <td>{{sensor.smokeLvl}}</td>
-            <td>{{sensor.status}}</td>
+            <td *ngIf="sensor.status == 'active'"><i class="fa fa-circle text-danger"></i></td>
+            <td *ngIf="sensor.status == 'inactive'"><i class="fa fa-circle text-success"></i></td>
         </tr>
         </tbody>
       </table>

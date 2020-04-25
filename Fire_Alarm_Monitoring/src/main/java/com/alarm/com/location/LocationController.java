@@ -3,6 +3,7 @@ package com.alarm.com.location;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ public class LocationController {
 	private LocationService locationService;
 	
 	@RequestMapping(value = "/location", method = RequestMethod.GET)
+	@CrossOrigin(origins = "*")
 	public List<Location> getLocationDetails() {
 		return locationService.getAllLocation();
 	}
