@@ -10,9 +10,13 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.TreeMap;
+import java.util.Vector;
 
 import org.json.simple.JSONObject;
 
+import com.alarm.com.location.Location;
+import com.google.gson.Gson;
+import com.notifaction.sms.SMS;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -21,6 +25,8 @@ public class Server extends UnicastRemoteObject implements LoginFacade, AlarmFac
 	// properties
 	private TreeMap clients = new TreeMap<String, String>();
 	Client client = new Client().create();
+	//SMS sms = new SMS();
+	
 	
 	public Server() throws RemoteException {
 	
@@ -144,6 +150,26 @@ public class Server extends UnicastRemoteObject implements LoginFacade, AlarmFac
 			Server obj = new Server();
 			reg.rebind("rmi://localhost/service", obj);
 			System.out.println("Server is running...");
+			
+			
+			
+			Timer t = new Timer();
+			
+			t.scheduleAtFixedRate(
+			    new TimerTask()
+			    {
+			        public void run()
+			        {
+			            try {
+							obj.sendNotification();
+						} catch (RemoteException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+			        }
+			    },
+			    0,      
+			    15000); 
 		} catch (RemoteException e) {
 			System.out.println(e.getMessage());
 		}		
@@ -171,6 +197,41 @@ public class Server extends UnicastRemoteObject implements LoginFacade, AlarmFac
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
+		
+	}
+
+	@Override
+	public void sendNotification() throws RemoteException {
+		try {
+			WebResource webResource = client.resource("http://localhost:8080/location");
+			ClientResponse response = webResource.accept("application/json").get(ClientResponse.class);
+			
+			if (response.getStatus() != 200) {
+				throw new RuntimeException("Failed: HTTP error code: " + response.getStatus());
+			}
+			
+			
+			Gson gson = new Gson();
+			
+			
+			Location[] location = gson.fromJson(response.getEntity(String.class), Location[].class);
+			
+			for(int i=0; i < location.length; i++) {
+				
+				if(location[i].getCo2()>5) {
+					//sms.sendSMS();
+					System.out.println("SMS notification");
+				}
+				
+				
+				
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
 		
 	}
 
