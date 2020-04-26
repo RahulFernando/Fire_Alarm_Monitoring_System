@@ -29,7 +29,7 @@ public class sensorApp {
 					throw new RuntimeException("Failed: HTTP error code: " + res.getStatus());
 				}
 				
-				Location[] location = new Location[20];
+				Location[] location = new Location[100];
 				location = gson.fromJson(res.getEntity(String.class), Location[].class);
 				
 				Random co2 = new Random();
