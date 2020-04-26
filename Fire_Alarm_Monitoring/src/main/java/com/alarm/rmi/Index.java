@@ -111,7 +111,7 @@ public class Index {
 			
 			Location[] location = gson.fromJson(server.getLocation(), Location[].class);
 			
-			sms = new SMS();
+			
 			
 			for(int i=0; i < location.length; i++) {
 				Vector<Integer> row = new Vector<Integer>();
@@ -124,7 +124,7 @@ public class Index {
 				
 			}
 			
-			sms.sendSMS();
+			
 			table.setModel(model);
 			
 		} catch (RemoteException | NotBoundException  e) {
