@@ -57,6 +57,15 @@ public class sensorApp {
 					status.put("co2" ,levelCo2);
 					status.put("smokeLvl" ,levelSmoke);
 					
+					if(levelCo2 > 5) {
+						status.put("status" ,"active");
+					}
+					
+					else {
+						status.put("status" ,"inactive");
+					}
+					
+					
 					ClientResponse response = webResource.type("application/json").put(ClientResponse.class, status.toString());
 					
 					if (response.getStatus() != 200) {
