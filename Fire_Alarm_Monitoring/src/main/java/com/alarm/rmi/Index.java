@@ -3,6 +3,8 @@ package com.alarm.rmi;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
@@ -29,6 +31,7 @@ public class Index {
 
 	private JFrame frame;
 	private JTable table;
+	private JPanel contentPane;
 	private SMS sms;
 	
 	

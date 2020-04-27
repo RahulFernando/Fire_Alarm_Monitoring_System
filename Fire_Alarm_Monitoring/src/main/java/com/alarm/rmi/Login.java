@@ -18,12 +18,14 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.awt.event.ActionEvent;
+import javax.swing.JPasswordField;
 
 public class Login extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textUsername;
-	private JTextField textPassword;
+	private JPasswordField passwordField;
+	private final JPanel panel_1 = new JPanel();
 
 	/**
 	 * Launch the application.
@@ -69,11 +71,6 @@ public class Login extends JFrame {
 		lblPassword.setBounds(37, 185, 84, 16);
 		contentPane.add(lblPassword);
 		
-		textPassword = new JTextField();
-		textPassword.setBounds(158, 183, 189, 22);
-		contentPane.add(textPassword);
-		textPassword.setColumns(10);
-		
 		JButton btnLogin = new JButton("LOGIN");
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -83,7 +80,7 @@ public class Login extends JFrame {
 										
 					// get user input
 					String username = textUsername.getText();
-					String password = textPassword.getText();
+					String password = passwordField.getText();
 					
 					String response = server.login(username, password);
 					
@@ -117,9 +114,11 @@ public class Login extends JFrame {
 		panel.setBounds(-3, -3, 613, 57);
 		contentPane.add(panel);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(new Color(0, 0, 51));
-		panel_1.setBounds(-3, 52, 615, 309);
+		passwordField = new JPasswordField();
+		passwordField.setBounds(158, 185, 189, 20);
+		contentPane.add(passwordField);
+		panel_1.setBackground(new Color(0, 0, 128));
+		panel_1.setBounds(0, 53, 610, 314);
 		contentPane.add(panel_1);
 	}
 }

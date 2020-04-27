@@ -21,6 +21,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 
 import org.json.simple.JSONObject;
@@ -34,8 +35,11 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextPane;
 
 public class Dashboard {
 
@@ -68,6 +72,19 @@ public class Dashboard {
 	 */
 	public Dashboard() {
 		initialize();
+		Timer t = new Timer();
+
+		t.scheduleAtFixedRate(
+		    new TimerTask()
+		    {
+		        public void run()
+		        {
+		        	tableChange();
+		        }
+		    },
+		    0,      
+		    30000);
+		
 	}
 
 	/**
@@ -122,12 +139,124 @@ public class Dashboard {
 		btnNewLocation.setBackground(new Color(0, 128, 0));
 		btnNewLocation.setBounds(357, 86, 41, 25);
 		frame.getContentPane().add(btnNewLocation);
+	
 		
-		table = new JTable();
-		table.setBounds(58, 177, 457, 156);
+		
+		JButton btnNewButton = new JButton("UPDATE");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Registry reg;
+				try {
+					reg = LocateRegistry.getRegistry("localhost", 1099);
+					AlarmFacade server = (AlarmFacade) reg.lookup("rmi://localhost/service");
+					
+					
+					// get use input
+					int floor_no = Integer.parseInt(textFloorNo.getText());
+					int room_no = Integer.parseInt(textRoomNo.getText());
+					
+					System.out.println(id);
+					System.out.println(floor_no);
+					
+					System.out.println(room_no);
+					
+					server.updateSensor(id, floor_no, room_no);
+					
+					JOptionPane.showMessageDialog(null, "Successfully Updated \n(Following list will be changed in every 30 seconds)");
+					
+				
+					
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NotBoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				
+				
+			}
+		});
+		btnNewButton.setBackground(Color.ORANGE);
+		btnNewButton.setBounds(408, 87, 80, 23);
+		frame.getContentPane().add(btnNewButton);
+		
+		btnNewButton_1 = new JButton("DELETE");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				Registry reg;
+				try {
+					reg = LocateRegistry.getRegistry("localhost", 1099);
+					AlarmFacade server = (AlarmFacade) reg.lookup("rmi://localhost/service");
+					
+					
+					server.deleteSensor(id);
+					JOptionPane.showMessageDialog(null, "Successfully Deleted \n(Following list will be changed in every 30 seconds)");
+					
+				} catch (RemoteException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (NotBoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
+				
+			}
+		});
+		btnNewButton_1.setBackground(Color.RED);
+		btnNewButton_1.setBounds(493, 87, 79, 23);
+		frame.getContentPane().add(btnNewButton_1);
+		
+		JTextPane textPane_1 = new JTextPane();
+		textPane_1.setText("#");
+		textPane_1.setBounds(56, 155, 95, 20);
+		frame.getContentPane().add(textPane_1);
+		
+		JTextPane txtpnFloorNo = new JTextPane();
+		txtpnFloorNo.setText("Floor No");
+		txtpnFloorNo.setBounds(152, 155, 95, 20);
+		frame.getContentPane().add(txtpnFloorNo);
+		
+		JTextPane txtpnRoomNo = new JTextPane();
+		txtpnRoomNo.setText("Room No");
+		txtpnRoomNo.setBounds(246, 155, 95, 20);
+		frame.getContentPane().add(txtpnRoomNo);
+		
+		JTextPane txtpnCoLevel = new JTextPane();
+		txtpnCoLevel.setText("Co2 level");
+		txtpnCoLevel.setBounds(339, 155, 95, 20);
+		frame.getContentPane().add(txtpnCoLevel);
+		
+		JTextPane txtpnSmokeLevel = new JTextPane();
+		txtpnSmokeLevel.setText("Smoke Level");
+		txtpnSmokeLevel.setBounds(436, 155, 86, 20);
+		frame.getContentPane().add(txtpnSmokeLevel);
+		
+
+
+		
+		
+//		DefaultTableModel model1 = (DefaultTableModel)table.getModel();
+//		
+//		int selectedRow = table.getSelectedRow();
+//		textFloorNo.setText(model1.getValueAt(selectedRow, 1).toString());
+	}
+	
+	public void tableChange() {
 		String[] columnNames = {"#", "Floor No", "Room No", "CO2", "SmokeLvl"};
-		DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+		DefaultTableModel model = new DefaultTableModel(columnNames,0);
+		table = new JTable(model);
+		JTableHeader header = table.getTableHeader();
+		header.setBackground(Color.cyan);
+		table.setBounds(58, 177, 457, 156);
+		model.setColumnIdentifiers(columnNames);
 		table.setModel(model);
+//		JScrollPane pane = new JScrollPane(table);
+	
 		
 		frame.getContentPane().add(table);
 		
@@ -167,6 +296,7 @@ public class Dashboard {
 						
 						System.out.println(id);
 						System.out.println(floor_no);
+						
 						System.out.println(room_no);
 						
 						server.updateSensor(id, floor_no, room_no);
@@ -242,10 +372,5 @@ public class Dashboard {
 				}
 			}
 		});
-		
-//		DefaultTableModel model1 = (DefaultTableModel)table.getModel();
-//		
-//		int selectedRow = table.getSelectedRow();
-//		textFloorNo.setText(model1.getValueAt(selectedRow, 1).toString());
 	}
 }
