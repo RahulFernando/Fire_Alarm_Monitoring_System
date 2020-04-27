@@ -211,10 +211,10 @@ public class Dashboard {
 		btnNewButton_1.setBounds(493, 87, 79, 23);
 		frame.getContentPane().add(btnNewButton_1);
 		
-		JTextPane textPane_1 = new JTextPane();
-		textPane_1.setText("#");
-		textPane_1.setBounds(56, 155, 95, 20);
-		frame.getContentPane().add(textPane_1);
+		JTextPane txtpnid = new JTextPane();
+		txtpnid.setText("#ID");
+		txtpnid.setBounds(57, 155, 95, 20);
+		frame.getContentPane().add(txtpnid);
 		
 		JTextPane txtpnFloorNo = new JTextPane();
 		txtpnFloorNo.setText("Floor No");
@@ -233,7 +233,7 @@ public class Dashboard {
 		
 		JTextPane txtpnSmokeLevel = new JTextPane();
 		txtpnSmokeLevel.setText("Smoke Level");
-		txtpnSmokeLevel.setBounds(436, 155, 86, 20);
+		txtpnSmokeLevel.setBounds(434, 155, 80, 20);
 		frame.getContentPane().add(txtpnSmokeLevel);
 		
 

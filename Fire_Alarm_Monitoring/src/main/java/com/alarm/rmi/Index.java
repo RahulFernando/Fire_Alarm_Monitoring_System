@@ -26,6 +26,7 @@ import com.alarm.com.location.Location;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.notifaction.sms.SMS;
+import javax.swing.JTextPane;
 
 public class Index {
 
@@ -94,6 +95,31 @@ public class Index {
 			btnSignIn.setIcon(new ImageIcon(Index.class.getResource("/com/alarm/rmi/icons8-login-64.png")));
 			btnSignIn.setBounds(468, 13, 75, 73);
 			frame.getContentPane().add(btnSignIn);
+			
+			JTextPane txtpnid = new JTextPane();
+			txtpnid.setText("#ID");
+			txtpnid.setBounds(49, 166, 91, 20);
+			frame.getContentPane().add(txtpnid);
+			
+			JTextPane txtpnFloorNo = new JTextPane();
+			txtpnFloorNo.setText("Floor No");
+			txtpnFloorNo.setBounds(142, 166, 91, 20);
+			frame.getContentPane().add(txtpnFloorNo);
+			
+			JTextPane txtpnRoomNo = new JTextPane();
+			txtpnRoomNo.setText("Room No");
+			txtpnRoomNo.setBounds(234, 166, 91, 20);
+			frame.getContentPane().add(txtpnRoomNo);
+			
+			JTextPane txtpnCoLevel = new JTextPane();
+			txtpnCoLevel.setText("Co2 level");
+			txtpnCoLevel.setBounds(327, 167, 91, 20);
+			frame.getContentPane().add(txtpnCoLevel);
+			
+			JTextPane txtpnSmokeLevel = new JTextPane();
+			txtpnSmokeLevel.setText("Smoke Level");
+			txtpnSmokeLevel.setBounds(419, 167, 91, 20);
+			frame.getContentPane().add(txtpnSmokeLevel);
 			
 			
 		}
