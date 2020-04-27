@@ -9,6 +9,8 @@ import javax.swing.JTable;
 
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
@@ -110,6 +112,7 @@ public class Dashboard {
 					int room_no = Integer.parseInt(textRoomNo.getText());
 					
 					server.setSensor(floor_no, room_no);
+					JOptionPane.showMessageDialog(null, "Successfully Inserted \n(Following list will be changed in every 30 seconds)");
 					
 				} catch (RemoteException | NotBoundException e) {
 					e.printStackTrace();
@@ -168,6 +171,8 @@ public class Dashboard {
 						
 						server.updateSensor(id, floor_no, room_no);
 						
+						JOptionPane.showMessageDialog(null, "Successfully Updated \n(Following list will be changed in every 30 seconds)");
+						
 					
 						
 					} catch (RemoteException e) {
@@ -197,6 +202,7 @@ public class Dashboard {
 						
 						
 						server.deleteSensor(id);
+						JOptionPane.showMessageDialog(null, "Successfully Deleted \n(Following list will be changed in every 30 seconds)");
 						
 					} catch (RemoteException e1) {
 						// TODO Auto-generated catch block
