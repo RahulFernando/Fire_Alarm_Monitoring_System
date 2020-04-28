@@ -8,10 +8,10 @@ IT18110630
 
 ## Technologies
 
-java spring
-angular
-rmi
-mysql
+java spring,
+angular,
+rmi,
+mysql,
 jframe
 
 ## Getting Started
