@@ -10,7 +10,7 @@ import { SensorService } from 'src/app/sensor.service';
 export class BodyComponent implements OnInit {
   sensors: Sensors[];
   constructor(private SensorService: SensorService) { 
-    setInterval(() => this.getSensorDetails(), 5000);
+    setInterval(() => this.getSensorDetails(), 40000);
   }
 
   ngOnInit() {
