@@ -2,9 +2,9 @@
 
 ## Contribution
 
-IT18110944
-IT18107388
-IT18110630
+*. IT18110944
+*. IT18107388
+*. IT18110630
 
 ## Technologies
 
