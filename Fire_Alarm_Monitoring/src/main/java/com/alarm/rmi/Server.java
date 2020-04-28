@@ -16,6 +16,7 @@ import org.json.simple.JSONObject;
 
 import com.alarm.com.location.Location;
 import com.google.gson.Gson;
+import com.notifaction.email.Email;
 import com.notifaction.sms.SMS;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -25,7 +26,8 @@ public class Server extends UnicastRemoteObject implements LoginFacade, AlarmFac
 	// properties
 	private TreeMap clients = new TreeMap<String, String>();
 	Client client = new Client().create();
-	//SMS sms = new SMS();
+	SMS sms = new SMS();
+	
 	
 	
 	public Server() throws RemoteException {
@@ -219,11 +221,13 @@ public class Server extends UnicastRemoteObject implements LoginFacade, AlarmFac
 			for(int i=0; i < location.length; i++) {
 				
 				if("active".equals(location[i].getStatus())) {
-					//sms.sendSMS();
-					System.out.println("SMS notification");
-					System.out.println(location[i].getStatus());
+					
+					System.out.println("Alert Notification");
+					sms.sendSMS();
+					Email.sendMail();
+					
 				}else {
-				       //do something else
+				      
 			    }
 				
 				
