@@ -57,7 +57,7 @@ public class sensorApp {
 					status.put("co2" ,levelCo2);
 					status.put("smokeLvl" ,levelSmoke);
 					
-					if(levelCo2 > 5) {
+					if(levelCo2 > 5 || levelSmoke > 5) {
 						status.put("status" ,"active");
 					}
 					

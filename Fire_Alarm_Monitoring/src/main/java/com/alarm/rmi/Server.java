@@ -218,10 +218,13 @@ public class Server extends UnicastRemoteObject implements LoginFacade, AlarmFac
 			
 			for(int i=0; i < location.length; i++) {
 				
-				if(location[i].getCo2()>5) {
+				if("active".equals(location[i].getStatus())) {
 					//sms.sendSMS();
 					System.out.println("SMS notification");
-				}
+					System.out.println(location[i].getStatus());
+				}else {
+				       //do something else
+			    }
 				
 				
 				

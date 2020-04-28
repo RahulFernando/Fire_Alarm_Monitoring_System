@@ -1,5 +1,6 @@
 package com.alarm.rmi;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -21,6 +22,8 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.awt.event.ActionEvent;
 import javax.swing.table.DefaultTableModel;
+
+import org.springframework.beans.factory.config.SetFactoryBean;
 
 import com.alarm.com.location.Location;
 import com.google.gson.Gson;
@@ -98,28 +101,38 @@ public class Index {
 			
 			JTextPane txtpnid = new JTextPane();
 			txtpnid.setText("#ID");
-			txtpnid.setBounds(49, 166, 91, 20);
+			txtpnid.setBounds(49, 166, 75, 20);
 			frame.getContentPane().add(txtpnid);
 			
 			JTextPane txtpnFloorNo = new JTextPane();
 			txtpnFloorNo.setText("Floor No");
-			txtpnFloorNo.setBounds(142, 166, 91, 20);
+			txtpnFloorNo.setBounds(125, 166, 75, 20);
 			frame.getContentPane().add(txtpnFloorNo);
 			
 			JTextPane txtpnRoomNo = new JTextPane();
 			txtpnRoomNo.setText("Room No");
-			txtpnRoomNo.setBounds(234, 166, 91, 20);
+			txtpnRoomNo.setBounds(202, 166, 75, 20);
 			frame.getContentPane().add(txtpnRoomNo);
 			
 			JTextPane txtpnCoLevel = new JTextPane();
 			txtpnCoLevel.setText("Co2 level");
-			txtpnCoLevel.setBounds(327, 167, 91, 20);
+			txtpnCoLevel.setBounds(280, 166, 75, 20);
 			frame.getContentPane().add(txtpnCoLevel);
 			
 			JTextPane txtpnSmokeLevel = new JTextPane();
-			txtpnSmokeLevel.setText("Smoke Level");
-			txtpnSmokeLevel.setBounds(419, 167, 91, 20);
+			txtpnSmokeLevel.setText("Smoke level");
+			txtpnSmokeLevel.setBounds(358, 166, 75, 20);
 			frame.getContentPane().add(txtpnSmokeLevel);
+			
+			JTextPane txtpnStatus = new JTextPane();
+			txtpnStatus.setText("Status");
+			txtpnStatus.setBounds(435, 166, 75, 20);
+			frame.getContentPane().add(txtpnStatus);
+			
+//			JTextPane txtpnstatus = new JTextPane();
+//			txtpnSmokeLevel.setText("Status");
+//			txtpnSmokeLevel.setBounds(511, 167, 91, 20);
+//			frame.getContentPane().add(txtpnstatus);
 			
 			
 		}
@@ -131,7 +144,7 @@ public class Index {
 		
 
 		
-		String[] columnNames = {"#", "Floor No", "Room No", "CO2", "SmokeLvl"};
+		String[] columnNames = {"#", "Floor No", "Room No", "CO2", "SmokeLvl","status"};
 		DefaultTableModel model = new DefaultTableModel(columnNames, 0);
 		try {
 			Registry reg = LocateRegistry.getRegistry("localhost", 1099);
@@ -143,13 +156,16 @@ public class Index {
 			
 			
 			for(int i=0; i < location.length; i++) {
-				Vector<Integer> row = new Vector<Integer>();
-				row.add(location[i].getId());
-				row.add(location[i].getFloor_no());
-				row.add(location[i].getRoom_no());
-				row.add(location[i].getCo2());
-				row.add(location[i].getSmokeLvl());
+				Vector<String> row = new Vector<String>();
+				row.add(Integer.toString(location[i].getId()));
+				row.add(Integer.toString(location[i].getFloor_no()));
+				row.add(Integer.toString(location[i].getRoom_no()));
+				row.add(Integer.toString(location[i].getCo2()));
+				row.add(Integer.toString(location[i].getSmokeLvl()));
+				row.add(location[i].getStatus());
+			
 				model.addRow(row);
+				
 				
 			}
 			
@@ -160,5 +176,4 @@ public class Index {
 			e.printStackTrace();
 		}
 	}
-		
 }
