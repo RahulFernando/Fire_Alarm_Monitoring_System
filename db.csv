@@ -1,0 +1,6 @@
+location_id,co2,floor_no,room_no,smokelvl,status
+1,4,3,301,5,inactive
+2,2,2,211,1,inactive
+3,6,4,411,4,active
+4,6,4,402,5,active
+5,1,5,506,4,inactive
